@@ -1,9 +1,29 @@
 import { Canvas } from "@react-three/fiber"
 import { OrbitControls } from "@react-three/drei"
 import WaitingRoom from "../rooms/WaitingRoom"
-import Player from "../components/Player"
-import CameraController from "../components/CameraController"
+import Player from "../components/player/Player"
+import CameraController from "../components/camera/CameraController"
 import { useRef } from "react"
+import { useFrame } from "@react-three/fiber"
+
+function EmotionalEnvironment({ playerRef }) {
+    useFrame(({ scene}) => {
+        if (!playerRef.current) return
+
+        const anxiety = playerRef.current.userData.anxiety
+
+        scene.traverse((obj) => {
+            if (obj.isMesh  && obj.material) {
+                obj.material.color.lerp(
+                    new THREE.Color("#000000"),
+                    anxiety * 0.2
+                )
+            }
+        })
+    })
+
+    return null
+}
 
 export default function GameScene() {
     const playerRef = useRef()
@@ -20,7 +40,7 @@ export default function GameScene() {
         castShadow
       />
 
-      <WaitingRoom />
+      <WaitingRoom playerRef={playerRef} />
       <Player ref={playerRef} />
       <CameraController target={playerRef}/>
 
@@ -30,6 +50,9 @@ export default function GameScene() {
         enableZoom={false}
         maxPolarAngle={Math.PI / 2}
       />
+
+      <EmotionalEnvironment playerRef={playerRef} />
+      <InnerVoice playerRef={playerRef} />
     </Canvas>
   )
 }
