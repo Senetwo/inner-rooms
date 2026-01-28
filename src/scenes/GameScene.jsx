@@ -2,8 +2,12 @@ import { Canvas } from "@react-three/fiber"
 import { OrbitControls } from "@react-three/drei"
 import WaitingRoom from "../rooms/WaitingRoom"
 import Player from "../components/Player"
+import CameraController from "../components/CameraController"
+import { useRef } from "react"
 
 export default function GameScene() {
+    const playerRef = useRef()
+
   return (
     <Canvas
       shadows
@@ -17,7 +21,8 @@ export default function GameScene() {
       />
 
       <WaitingRoom />
-      <Player />
+      <Player ref={playerRef} />
+      <CameraController target={playerRef}/>
 
       {/* Disable rotation to keep it calm */}
       <OrbitControls

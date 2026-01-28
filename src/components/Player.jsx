@@ -1,13 +1,18 @@
 import { useFrame } from "@react-three/fiber"
-import { useRef } from "react"
+import { forwardRef } from "react"
+import { useKeyboard } from "../hooks/useKeyboard"
 
-export default function Player() {
-  const ref = useRef()
+  const Player = forwardRef((props, ref) => {
+    const keys = useKeyboard()
+    const speed = 0.05
 
   useFrame(() => {
-    if (ref.current) {
-      ref.current.rotation.y += 0.002 // subtle idle motion
-    }
+    if (!ref.current) return
+
+    if (keys.w) ref.current.position.z -= speed
+    if (keys.s) ref.current.position.z += speed
+    if (keys.a) ref.current.position.x -= speed
+    if (keys.d) ref.current.position.x += speed
   })
 
   return (
@@ -16,4 +21,5 @@ export default function Player() {
       <meshStandardMaterial color="#9e9e9e" />
     </mesh>
   )
-}
+})
+export default Player
