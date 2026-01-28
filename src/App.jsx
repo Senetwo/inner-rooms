@@ -1,11 +1,9 @@
-import { useState } from "react";
-import { initialState } from "./game/initialState";
-import Home from "./pages/Home";
+import GameScene from "./scenes/GameScene"
 
-function App() {
-  const [state, setState] = useState(initialState);
-
-  return <Home state={state} setState={setState} />;
+export default function App() {
+  return (
+    <div style={{ width: "100vw", height: "100vh" }}>
+      <GameScene />
+    </div>
+  )
 }
-
-export default App;
