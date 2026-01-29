@@ -1,9 +1,5 @@
-import GameScene from "./scenes/GameScene"
+import { PlayerStateProvider } from "./state/PlayerState"
 
-export default function App() {
-  return (
-    <div style={{ width: "100vw", height: "100vh" }}>
-      <GameScene />
-    </div>
-  )
-}
+<PlayerStateProvider>
+  <GameScene />
+</PlayerStateProvider>
